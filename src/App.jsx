@@ -11,7 +11,7 @@ function App() {
   const [validade, setValidade] = useState("");
   const [lote, setLote] = useState("");
   const [quantidade, setQuantidade] = useState("");
-  const [responsavel, setResponsavel] = useState(responsaveis[0]);
+ const [responsavel, setResponsavel] = useState("");
 
       const labelRef = useRef(null);
 
@@ -102,16 +102,18 @@ function App() {
 
             <label>Responsável</label>
 
-            <select
-              value={responsavel}
-              onChange={(e) => setResponsavel(e.target.value)}
-            >
-              {responsaveis.map((item) => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-            </select>
+                                    <select
+                          value={responsavel}
+                          onChange={(e) => setResponsavel(e.target.value)}
+                        >
+                          <option value="">Selecione...</option>
+
+                          {responsaveis.map((item) => (
+                            <option key={item} value={item}>
+                              {item}
+                            </option>
+                          ))}
+                        </select>
 
                       <button 
                 className={styles.printButton}
