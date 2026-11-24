@@ -5,162 +5,231 @@ import Label from "./components/Label";
 import { useReactToPrint } from "react-to-print";
 import { useState, useRef } from "react";
 
+// Campos e configurações iniciais
+const camposIniciais = {
+  produto: {
+    rotulo: "Produto",
+    tipo: "texto",
+    valor: "",
+  },
+  fabricacao: {
+    rotulo: "Fab.:",
+    tipo: "data",
+    valor: "",
+  },
+  validade: {
+    rotulo: "Val.:",
+    tipo: "data",
+    valor: "",
+  },
+  lote: {
+    rotulo: "Lote:",
+    tipo: "texto",
+    valor: "",
+  },
+  quantidade: {
+    rotulo: "Qtde:",
+    tipo: "texto",
+    valor: "",
+  },
+  responsavel: {
+    rotulo: "Resp.:",
+    tipo: "lista",
+    valor: "",
+  },
+};
+
+const nomesCampos = {
+  produto: "Produto",
+  fabricacao: "Fabricação",
+  validade: "Validade",
+  lote: "Lote",
+  quantidade: "Quantidade",
+  responsavel: "Responsável",
+};
+
 function App() {
-  const [produto, setProduto] = useState("");
-  const [fabricacao, setFabricacao] = useState("");
-  const [validade, setValidade] = useState("");
-  const [lote, setLote] = useState("");
-  const [quantidade, setQuantidade] = useState("");
- const [responsavel, setResponsavel] = useState("");
+  const [campos, setCampos] = useState(camposIniciais);
 
-      const labelRef = useRef(null);
+  const labelRef = useRef(null);
 
-            const handlePrint = useReactToPrint({
+  // Atualiza o título de cada campo
+  const atualizarRotulo = (campo, rotulo) => {
+    setCampos((anterior) => ({
+      ...anterior,
+      [campo]: {
+        ...anterior[campo],
+        rotulo,
+      },
+    }));
+  };
 
-  contentRef: labelRef,
+  // Atualiza o tipo de preenchimento
+  const atualizarTipo = (campo, tipo) => {
+    setCampos((anterior) => ({
+      ...anterior,
+      [campo]: {
+        ...anterior[campo],
+        tipo,
+      },
+    }));
+  };
 
-  documentTitle: "Etiqueta",
+  // Atualiza o conteúdo de cada campo
+  const atualizarValor = (campo, valor) => {
+    setCampos((anterior) => ({
+      ...anterior,
+      [campo]: {
+        ...anterior[campo],
+        valor,
+      },
+    }));
+  };
 
-  pageStyle: `
+  const handlePrint = useReactToPrint({
+    contentRef: labelRef,
+    documentTitle: "Etiqueta",
+    pageStyle: `
+      @page {
+        size: 100mm 70mm;
+        margin: 0;
+      }
 
-    @page {
+      body {
+        margin: 0;
+        padding: 0;
+      }
 
-      size: 100mm 70mm;
+      * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    `,
+  });
 
-      margin: 0;
+  // Renderiza os controles de cada campo
+  const renderCampo = (campo) => {
+    const configuracao = campos[campo];
 
-    }
+    return (
+      <div key={campo}>
+        <label>
+          Título - {nomesCampos[campo]}
+        </label>
 
+        <input
+          type="text"
+          value={configuracao.rotulo}
+          onChange={(e) =>
+            atualizarRotulo(campo, e.target.value)
+          }
+        />
 
-    body {
+        <label>
+          Tipo de preenchimento
+        </label>
 
-      margin: 0;
+        <select
+          value={configuracao.tipo}
+          onChange={(e) =>
+            atualizarTipo(campo, e.target.value)
+          }
+        >
+          <option value="texto">Texto livre</option>
+          <option value="data">Data</option>
 
-      padding: 0;
+          {campo === "responsavel" && (
+            <option value="lista">
+              Lista de responsáveis
+            </option>
+          )}
+        </select>
 
-    }
+        <label>
+          {nomesCampos[campo]}
+        </label>
 
+        {configuracao.tipo === "data" ? (
+          <input
+            type="date"
+            value={configuracao.valor}
+            onChange={(e) =>
+              atualizarValor(campo, e.target.value)
+            }
+          />
+        ) : configuracao.tipo === "lista" ? (
+          <select
+            value={configuracao.valor}
+            onChange={(e) =>
+              atualizarValor(campo, e.target.value)
+            }
+          >
+            <option value="">Selecione...</option>
 
-    * {
-
-      -webkit-print-color-adjust: exact;
-
-      print-color-adjust: exact;
-
-    }
-
-  `,
-
-});
+            {responsaveis.map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <input
+            type="text"
+            value={configuracao.valor}
+            onChange={(e) =>
+              atualizarValor(campo, e.target.value)
+            }
+          />
+        )}
+      </div>
+    );
+  };
 
   return (
-  <div className={styles.container}>
-    <div className={styles.card}>
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <h1>Etiquetas</h1>
 
-      <h1>Etiquetas</h1>
+        <div className={styles.content}>
+          <div className={styles.left}>
+            <div className={styles.form}>
 
-      <div className={styles.content}>
+              {Object.keys(campos).map((campo) =>
+                renderCampo(campo)
+              )}
 
-        <div className={styles.left}>
-
-          <div className={styles.form}>
-
-            <label>Produto</label>
-            <input
-              type="text"
-              value={produto}
-              onChange={(e) => setProduto(e.target.value)}
-            />
-
-            <label>Fabricação</label>
-            <input
-              type="date"
-              value={fabricacao}
-              onChange={(e) => setFabricacao(e.target.value)}
-            />
-
-            <label>Validade</label>
-            <input
-              type="date"
-              value={validade}
-              onChange={(e) => setValidade(e.target.value)}
-            />
-
-            <label>Lote</label>
-            <input
-              type="text"
-              value={lote}
-              onChange={(e) => setLote(e.target.value)}
-            />
-
-            <label>Quantidade</label>
-            <input
-              type="number"
-              value={quantidade}
-              onChange={(e) => setQuantidade(e.target.value)}
-            />
-
-            <label>Responsável</label>
-
-                                    <select
-                          value={responsavel}
-                          onChange={(e) => setResponsavel(e.target.value)}
-                        >
-                          <option value="">Selecione...</option>
-
-                          {responsaveis.map((item) => (
-                            <option key={item} value={item}>
-                              {item}
-                            </option>
-                          ))}
-                        </select>
-
-                      <button 
+              <button
                 className={styles.printButton}
                 onClick={handlePrint}
-            >
+              >
                 🖨️ Imprimir
-            </button>
-
-          </div>
-
-        </div>
-
-        
-        <div className={styles.right}>
-
-          
-          <div className={styles.previewTitle}>
-              Pré-visualização da Etiqueta
-          </div>
-
-  <div className={styles.preview}>
-
-              <div ref={labelRef} style={{width:"100mm", height:"70mm"}}>
-
-            <Label
-                produto={produto}
-                fabricacao={fabricacao}
-                validade={validade}
-                lote={lote}
-                quantidade={quantidade}
-                responsavel={responsavel}
-            />
-
-        </div>
+              </button>
 
             </div>
-
           </div>
 
-                  </div>
+          <div className={styles.right}>
+            <div className={styles.previewTitle}>
+              Pré-visualização da Etiqueta
+            </div>
 
-                </div>
-
+            <div className={styles.preview}>
+              <div
+                ref={labelRef}
+                style={{
+                  width: "100mm",
+                  height: "70mm",
+                }}
+              >
+                <Label campos={campos} />
               </div>
-            
-          );
+            </div>
+          </div>
 
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default App;

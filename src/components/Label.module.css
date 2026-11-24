@@ -1,124 +1,111 @@
-.label {
 
+.label {
+  width: 100mm;
+  height: 70mm;
+
+  box-sizing: border-box;
+  background: white;
+
+  padding: 3mm 3mm 2mm 16mm;
+
+  display: flex;
+  flex-direction: column;
+
+  font-family: Arial, Helvetica, sans-serif;
+  color: #000;
+
+  overflow: hidden;
+}
+
+/* ===== Produto ===== */
+
+.produto {
+  font-size: 15pt;
+  font-weight: bold;
+
+  text-align: center;
+  line-height: 1.15;
+
+  margin-bottom: 3px;
+
+  width: calc(100% + 13mm);
+  margin-left: -13mm;
+
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* ===== Linha divisória ===== */
+
+.line {
+  border-bottom: 1px solid #000;
+  margin-bottom: 5px;
+  flex-shrink: 0;
+}
+
+/* ===== Linhas de informações ===== */
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  gap: 4px;
+
+  font-size: 10pt;
+  line-height: 1.2;
+
+  margin-bottom: 4px;
+}
+
+.row span {
+  width: 50%;
+  min-width: 0;
+
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* ===== Responsável ===== */
+
+.responsavel {
+  margin-top: 4px;
+
+  font-size: 10pt;
+
+  border-top: 1px solid #000;
+  padding-top: 3px;
+
+  line-height: 1.2;
+
+  overflow-wrap: anywhere;
+}
+
+/* ===== Impressão ===== */
+
+@media print {
+  @page {
+    size: 100mm 70mm;
+    margin: 0;
+  }
+
+  html,
+  body {
     width: 100mm;
     height: 70mm;
 
-    box-sizing: border-box;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
 
-    background: white;
+  .label {
+    width: 100mm;
+    height: 70mm;
 
-    padding: 3mm 3mm 2mm 16mm;
-
-    display: flex;
-
-    flex-direction: column;
-
-    font-family: Arial, Helvetica, sans-serif;
-
+    margin: 0;
     overflow: hidden;
-}
 
-
-
-.produto {
-
-    font-size: 15pt;
-
-    font-weight: bold;
-
-    text-align: center;
-
-    line-height: 1;
-
-    margin-bottom: 3px;
-
-    width: calc(100% + 13mm);
-
-    margin-left: -13mm;
-
-    word-break: break-word;
-
-}
-
-
-.line {
-
-    border-bottom: 1px solid #000;
-
-    margin-bottom: 5px;
-
-}
-
-
-
-.row {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    font-size: 10pt;
-
-    line-height: 1;
-
-    margin-bottom: 2px;
-
-}
-
-
-
-.row span {
-
-    width: 45%;
-
-    white-space: nowrap;
-
-}
-
-
-
-.responsavel {
-
-    margin-top: 4px;
-
-    font-size: 10pt;
-
-    border-top: 1px solid #000;
-
-    padding-top: 3px;
-
-    line-height: 1;
-
-}
-
-
-
-@media print {
-
-    @page {
-
-        size: 100mm 70mm;
-
-        margin: 0;
-
-    }
-
-
-    body {
-
-        margin: 0;
-
-        padding: 0;
-
-    }
-
-
-    .label {
-
-        margin-left: 0;
-
-    }
-
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
 }
