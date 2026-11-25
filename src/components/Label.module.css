@@ -1,87 +1,65 @@
-
 .label {
   width: 100mm;
   height: 70mm;
-
   box-sizing: border-box;
   background: white;
-
   padding: 3mm 3mm 2mm 16mm;
-
   display: flex;
   flex-direction: column;
-
   font-family: Arial, Helvetica, sans-serif;
   color: #000;
-
   overflow: hidden;
+  font-weight: bold;
 }
 
-/* ===== Produto ===== */
-
 .produto {
-  font-size: 15pt;
+  font-size: 15.5pt;
   font-weight: bold;
-
   text-align: center;
   line-height: 1.15;
-
   margin-bottom: 3px;
-
   width: calc(100% + 13mm);
   margin-left: -13mm;
-
   overflow-wrap: anywhere;
   word-break: normal;
 }
 
-/* ===== Linha divisória ===== */
-
 .line {
   border-bottom: 1px solid #000;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
   flex-shrink: 0;
 }
-
-/* ===== Linhas de informações ===== */
 
 .row {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-
-  gap: 4px;
-
-  font-size: 10pt;
+  gap: 8px;
+  font-size: 10.5pt;
   line-height: 1.2;
-
-  margin-bottom: 4px;
+  margin-bottom: 5px;
 }
 
 .row span {
-  width: 50%;
+  flex: 1;
   min-width: 0;
-
   overflow-wrap: anywhere;
   word-break: normal;
 }
 
-/* ===== Responsável ===== */
-
 .responsavel {
-  margin-top: 4px;
-
-  font-size: 10pt;
-
+  margin-top: 5px;
+  font-size: 10.5pt;
+  font-weight: bold;
   border-top: 1px solid #000;
-  padding-top: 3px;
-
+  padding-top: 4px;
   line-height: 1.2;
-
   overflow-wrap: anywhere;
 }
 
-/* ===== Impressão ===== */
+.label strong {
+  font-weight: bold;
+}
 
 @media print {
   @page {
@@ -93,7 +71,6 @@
   body {
     width: 100mm;
     height: 70mm;
-
     margin: 0 !important;
     padding: 0 !important;
   }
@@ -101,10 +78,8 @@
   .label {
     width: 100mm;
     height: 70mm;
-
     margin: 0;
     overflow: hidden;
-
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }

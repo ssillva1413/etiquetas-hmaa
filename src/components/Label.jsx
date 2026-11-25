@@ -10,11 +10,13 @@ function formatDate(data) {
 }
 
 function exibirValor(campo, valor) {
+  if (!valor) return "";
+
   if (campo.tipo === "data") {
     return formatDate(valor);
   }
 
-  return valor || "---";
+  return valor;
 }
 
 function Label({ campos }) {
